@@ -1,0 +1,56 @@
+{
+  "user": {
+    "name": "Alex"
+  },
+  "balance": {
+    "total": 24580,
+    "changePercent": 12.5
+  },
+  "stats": {
+    "orders": {
+      "total": 1248,
+      "changePercent": 8.2
+    },
+    "revenue": {
+      "total": 45200,
+      "changePercent": 15.3
+    }
+  },
+  "revenueOverview": [
+    { "day": "Jan", "amount": 4200 },
+    { "day": "Feb", "amount": 5800 },
+    { "day": "Mar", "amount": 5000 },
+    { "day": "Apr", "amount": 6500 },
+    { "day": "May", "amount": 7200 },
+    { "day": "Jun", "amount": 8100 },
+    { "day": "Jul", "amount": 7600 },
+    { "day": "Aug", "amount": 7600 },
+    { "day": "Sep", "amount": 8200 },
+    { "day": "Oct", "amount": 9000 },
+    { "day": "Nov", "amount": 9500 },
+    { "day": "Dec", "amount": 11000 }
+  ],
+  "lowStock": [
+    {
+      "id": "1",
+      "name": "Wireless Headphones",
+      "sku": "WH-2024-001",
+      "stock": 3,
+      "level": "critical"
+    },
+    {
+      "id": "2",
+      "name": "Smart Watch Series 5",
+      "sku": "SW-2024-005",
+      "stock": 12,
+      "level": "low"
+    },
+    {
+      "id": "3",
+      "name": "USB-C Cable (2m)",
+      "sku": "CB-2024-012",
+      "stock": 8,
+      "level": "low"
+    }
+  ]
+}

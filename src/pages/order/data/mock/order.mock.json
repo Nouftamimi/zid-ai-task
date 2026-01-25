@@ -1,0 +1,74 @@
+{
+  "orders": [
+    {
+      "id": "ORD-1001",
+      "customer": "Ahmed Ali",
+      "status": "Shipped",
+      "statusId": 1,
+      "total": 245
+    },
+    {
+      "id": "ORD-1002",
+      "customer": "Sarah Khan",
+      "status": "Pending",
+      "statusId": 2,
+      "total": 180
+    },
+    {
+      "id": "ORD-1003",
+      "customer": "Mohammed Noor",
+      "status": "Cancelled",
+      "statusId": 3,
+      "total": 95
+    },
+    {
+      "id": "ORD-1004",
+      "customer": "Fatima Saeed",
+      "status": "Shipped",
+      "statusId": 1,
+      "total": 320
+    },
+        {
+      "id": "ORD-1005",
+      "customer": "Fatima Saeed",
+      "status": "Shipped",
+      "statusId": 1,
+      "total": 320
+    },
+        {
+      "id": "ORD-1006",
+      "customer": "Fatima Saeed",
+      "status": "Cancelled",
+      "statusId": 3,
+      "total": 320
+    },
+        {
+      "id": "ORD-1007",
+      "customer": "Fatima Saeed",
+      "status": "Shipped",
+      "statusId": 1,
+      "total": 320
+    },
+        {
+      "id": "ORD-1008",
+      "customer": "Fatima Saeed",
+      "status": "Cancelled",
+      "statusId": 3,
+      "total": 320
+    },
+        {
+      "id": "ORD-1009",
+      "customer": "Fatima Saeed",
+      "status": "Shipped",
+      "statusId": 1,
+      "total": 320
+    },
+        {
+      "id": "ORD-1010",
+      "customer": "Fatima Saeed",
+      "status": "Shipped",
+      "statusId": 1,
+      "total": 320
+    }
+  ]
+}

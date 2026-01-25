@@ -1,0 +1,12 @@
+{
+  "products": [
+    { "id": "P1", "name": "iPhone 15", "price": 4500, "stock": 12, "sold": 120 },
+    { "id": "P2", "name": "MacBook Pro", "price": 9000, "stock": 5, "sold": 90 },
+    { "id": "P3", "name": "AirPods Pro", "price": 1200, "stock": 30, "sold": 200 },
+    { "id": "P4", "name": "Apple Watch", "price": 1800, "stock": 18, "sold": 60 },
+    { "id": "P5", "name": "iPad", "price": 3500, "stock": 10, "sold": 210 },
+    { "id": "P6", "name": "iPad 12", "price": 2045, "stock": 14, "sold": 30 },
+    { "id": "P7", "name": "MacBook Air", "price": 4000, "stock": 40, "sold": 34 },
+    { "id": "P8", "name": "AirPods Pro", "price": 200, "stock": 65, "sold": 50 }
+  ]
+}

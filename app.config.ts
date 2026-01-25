@@ -2,14 +2,14 @@ import { ConfigContext, ExpoConfig } from "expo/config";
 
 // Replace these with your EAS project ID and project slug.
 // You can find them at https://expo.dev/accounts/[account]/projects/[project].
-const EAS_PROJECT_ID = "4a40e811-db03-4dfb-bc1d-c97b8edc5a78";
-const PROJECT_SLUG = "with-envs";
-const OWNER = "betoatexpo";
+const EAS_PROJECT_ID = "c862491a-6015-4818-8eaf-0872aef0b34f";
+const PROJECT_SLUG = "zid-ai-task";
+const OWNER = "nouf323";
 
 // App production config
-const APP_NAME = "App Name";
-const BUNDLE_IDENTIFIER = "com.company.appname";
-const PACKAGE_NAME = "com.company.appname";
+const APP_NAME = "Zid AI";
+const BUNDLE_IDENTIFIER = "com.company.zidaitask";
+const PACKAGE_NAME = "com.company.zidaitask";
 const ICON = "./assets/images/icons/iOS-Prod.png";
 const ADAPTIVE_ICON = "./assets/images/icons/Android-Prod.png";
 const SCHEME = "app-scheme";
@@ -25,7 +25,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
   return {
     ...config,
     name: name,
-    version: "1.0.0",
+    version: "1.0.1",
     slug: PROJECT_SLUG, // Must be consistent across all environments.
     orientation: "portrait",
     userInterfaceStyle: "automatic",
@@ -46,9 +46,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     updates: {
       url: `https://u.expo.dev/${EAS_PROJECT_ID}`,
     },
-    runtimeVersion: {
-      policy: "appVersion",
-    },
+    runtimeVersion: "1.0.1",
     extra: {
       eas: {
         projectId: EAS_PROJECT_ID,
@@ -61,6 +59,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     },
     plugins: [
       "expo-router",
+      "expo-secure-store",
       [
         "expo-splash-screen",
         {

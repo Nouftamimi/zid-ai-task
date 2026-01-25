@@ -1,0 +1,25 @@
+{
+  "dashboard": "لوحة التحكم",
+  "welcome": "مرحباً {{name}}",
+  "totalBalance": "الرصيد الكلي",
+  "revenueOverview": "نظرة عامة على الإيرادات",
+  "lowStock": "تنبيهات نقص المخزون",
+  "reorder": "إعادة طلب",
+  "vsLastMonth": "مقارنة بالشهر الماضي",
+    "totalOrders": "إجمالي الطلبات",
+  "totalRevenue": "إجمالي الإيرادات",
+    "critical": "حرج",
+  "low": "منخفض",
+  "sku": "رمز المنتج",
+  "stock": "المخزون",
+  "units": "وحدة",
+  "searchOrders": "البحث عن طلبات حسب رقم الطلب أو العميل",
+  "Orders": "الطلبات",
+  "Products": "المنتجات",
+  "TopSelling": "المنتجات الأكثر مبيعًا",
+  "AllProducts": "جميع المنتجات",
+    "Home": "الرئيسية",
+  "products": "المنتجات",
+  "orders": "الطلبات"
+
+}

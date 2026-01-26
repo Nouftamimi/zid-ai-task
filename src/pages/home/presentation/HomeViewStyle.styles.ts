@@ -132,11 +132,10 @@ export const styles = StyleSheet.create({
     paddingEnd: 10,
     paddingVertical: 6,
     borderRadius: 8,
-    backgroundColor: '#EEF2FF',
   },
 
   langText: {
     fontWeight: '600',
-    color: '#4F46E5',
+    color: '#f1f1f1',
   },
 });

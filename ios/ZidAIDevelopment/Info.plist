@@ -34,7 +34,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>exp+with-envs</string>
+          <string>exp+zid-ai-task</string>
         </array>
       </dict>
     </array>

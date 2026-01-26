@@ -16,7 +16,7 @@
     <meta-data android:name="expo.modules.updates.EXPO_RUNTIME_VERSION" android:value="@string/expo_runtime_version"/>
     <meta-data android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH" android:value="ALWAYS"/>
     <meta-data android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS" android:value="0"/>
-    <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="https://u.expo.dev/4a40e811-db03-4dfb-bc1d-c97b8edc5a78"/>
+    <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="https://u.expo.dev/c862491a-6015-4818-8eaf-0872aef0b34f"/>
     <activity android:name=".MainActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode" android:launchMode="singleTask" android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.App.SplashScreen" android:exported="true" android:screenOrientation="portrait">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
@@ -28,7 +28,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="app-scheme-dev"/>
         <data android:scheme="com.company.zidaitask.dev"/>
-        <data android:scheme="exp+with-envs"/>
+        <data android:scheme="exp+zid-ai-task"/>
       </intent-filter>
     </activity>
   </application>

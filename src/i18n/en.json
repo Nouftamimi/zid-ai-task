@@ -20,5 +20,8 @@
   "AllProducts": "All Products",
   "Home": "Home",
   "products": "Products",
-  "orders": "Orders"
+  "orders": "Orders",
+  "AICopilot": "AI Copilot",
+  "AIisthinking": "AI is thinking...",
+  "Typeyourmessage": "Type your message..."
 }

@@ -24,9 +24,10 @@ const isRTL = I18nManager.isRTL;
 
 export default function HomeView() {
   const [data, setData] = useState<any>(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const router = useRouter();
-
+  const currentLang = i18n.language as 'en' | 'ar';
+  const nextLang = currentLang === 'en' ? 'ar' : 'en';
   const switchLang = async (lang: 'en' | 'ar') => {
     const rtl = lang === 'ar';
     await setLanguage(lang);
@@ -63,19 +64,15 @@ export default function HomeView() {
             <View style={styles.headerIcons}>
               <View style={styles.langSwitcher}>
                 <Pressable
-                  onPress={() => switchLang('en')}
+                  onPress={() => switchLang(nextLang)}
                   style={styles.langButton}
                 >
-                  <Text style={styles.langText}>EN</Text>
-                </Pressable>
-
-                <Pressable
-                  onPress={() => switchLang('ar')}
-                  style={styles.langButton}
-                >
-                  <Text style={styles.langText}>AR</Text>
+                  <Text style={styles.langText}>
+                    {nextLang.toUpperCase()}
+                  </Text>
                 </Pressable>
               </View>
+
 
               <View style={styles.avatarCircle}>
                 <Text style={{ color: 'white' }}>👤</Text>

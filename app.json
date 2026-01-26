@@ -1,4 +1,13 @@
 {
   "name": "zid-ai-task",
-  "slug": "zid-ai-task"
+  "slug": "zid-ai-task",
+    "expo": {
+    "ios": {
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
+    }
+  }
 }

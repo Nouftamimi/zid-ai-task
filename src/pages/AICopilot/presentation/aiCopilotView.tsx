@@ -1,7 +1,7 @@
-import { View, Text, TextInput, Pressable, FlatList } from 'react-native';
-import React, { useRef, useState } from 'react';
+import { View, Text, TextInput, Pressable, FlatList, Alert } from 'react-native';
+import React, { useState } from 'react';
 import { ChatMessage } from '../domain/entities/ChatMessage';
-import { aiCopilotStreamUseCase } from '../domain/usecase/aiCopilotStreamUseCase';
+import { aiCopilotUseCase } from '../domain/usecase/aiCopilotUseCase';
 import { aiCopilotRepositoryImpl } from '../data/aiCopilotRepositoryImpl';
 import { styles } from './aiCopilotViewStyle.styles';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,74 +11,58 @@ import { useNavigation } from '@react-navigation/native';
 export default function AICopilotView() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
-  const [streaming, setStreaming] = useState(false);
-  const abortRef = useRef<AbortController | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const { t } = useTranslation();
   const navigation = useNavigation();
 
   const send = async () => {
-    if (!input.trim() || streaming) return;
+    if (!input.trim() || loading) return;
 
     const userMessage: ChatMessage = {
       role: 'user',
       content: input,
     };
 
-    const assistantMessage: ChatMessage = {
-      role: 'assistant',
-      content: '',
-    };
-
-    setMessages(prev => [...prev, userMessage, assistantMessage]);
+    setMessages(prev => [...prev, userMessage]);
     setInput('');
-    setStreaming(true);
-
-    const controller = new AbortController();
-    abortRef.current = controller;
+    setLoading(true);
 
     try {
-      await aiCopilotStreamUseCase(aiCopilotRepositoryImpl)(
-        messages,
-        userMessage.content,
-        chunk => {
-          setMessages(prev => {
-            const updated = [...prev];
-            const last = updated[updated.length - 1];
-            if (last.role === 'assistant') {
-              last.content += chunk;
-            }
-            return [...updated];
-          });
-        },
-        controller.signal,
-      );
+      const updatedMessages = await aiCopilotUseCase(
+        aiCopilotRepositoryImpl
+      )(messages, userMessage.content);
+
+      setMessages(updatedMessages);
     } catch (e: any) {
-      // 👇 This is the key line
-      if (e.name !== 'AbortError') {
-        console.error(e);
-      }
+      // ✅ Extract readable error message
+      const errorMessage =
+        e?.message ||
+        e?.error?.message ||
+        t('errorMsg');
+
+
+      Alert.alert(
+        'AI Copilot',
+        errorMessage,
+        [{ text: 'OK' }],
+        { cancelable: true }
+      );
+
     } finally {
-      setStreaming(false);
-      abortRef.current = null;
+      setLoading(false);
     }
-
-  };
-
-  const stop = () => {
-    abortRef.current?.abort();
-    setStreaming(false);
   };
 
   return (
     <View style={styles.container}>
-      
-    <View style={styles.header}>
-      <Pressable onPress={() => navigation.goBack()}>
-        <Ionicons name="arrow-back" size={22} color="#222" />
-      </Pressable>
-
-      <Text style={styles.headerTitle}>{t('AICopilot')}</Text>
-    </View>
+      {/* Header */}
+      <View style={styles.header}>
+        <Pressable onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={22} color="#222" />
+        </Pressable>
+        <Text style={styles.headerTitle}>{t('AICopilot')}</Text>
+      </View>
 
       {/* Messages */}
       <FlatList
@@ -89,12 +73,7 @@ export default function AICopilotView() {
           const isUser = item.role === 'user';
 
           return (
-            <View
-              style={[
-                styles.row,
-                isUser && styles.rowReverse,
-              ]}
-            >
+            <View style={[styles.row, isUser && styles.rowReverse]}>
               {!isUser && (
                 <View style={styles.aiAvatar}>
                   <Text style={{ color: 'white', fontSize: 12 }}>AI</Text>
@@ -119,20 +98,20 @@ export default function AICopilotView() {
         <TextInput
           value={input}
           onChangeText={setInput}
-          placeholder={streaming ? t('AIisthinking') : t('Typeyourmessage')}
-          editable={!streaming}
+          placeholder={loading ? t('AIisthinking') : t('Typeyourmessage')}
+          editable={!loading}
           style={styles.input}
         />
 
-        {!streaming ? (
-          <Pressable onPress={send} style={styles.sendBtn}>
-            <Ionicons name="send" size={13} color="white" />
-          </Pressable>
-        ) : (
-          <Pressable onPress={stop} style={styles.stopBtn}>
-            <Text style={styles.sendText}>■</Text>
-          </Pressable>
-        )}
+        <Pressable
+          onPress={send}
+          style={[
+            styles.sendBtn,
+            loading && { opacity: 0.5 },
+          ]}
+        >
+          <Ionicons name="send" size={13} color="white" />
+        </Pressable>
       </View>
     </View>
   );

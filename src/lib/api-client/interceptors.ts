@@ -4,17 +4,19 @@ import { ApiError } from './apiError';
 
 export const setupInterceptors = () => {
   axiosInstance.interceptors.response.use(
-    (response) => response,
+    response => response,
     (error: AxiosError<any>) => {
       const apiError: ApiError = {
         status: error.response?.status,
         message:
+          error.response?.data?.error?.message ||
           error.response?.data?.message ||
           error.message ||
           'Something went wrong',
-        code: error.response?.data?.code,
+        code: error.response?.data?.error?.code,
       };
 
+      // ✅ No UI logic here
       return Promise.reject(apiError);
     }
   );

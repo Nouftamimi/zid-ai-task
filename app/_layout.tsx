@@ -2,6 +2,8 @@
 import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { initI18n } from '@/src/i18n';
+import { setupInterceptors } from '@/src/lib/api-client/interceptors';
+setupInterceptors();
 
 export default function RootLayout() {
   const [ready, setReady] = useState(false);

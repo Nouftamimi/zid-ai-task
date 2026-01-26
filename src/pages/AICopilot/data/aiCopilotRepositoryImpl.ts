@@ -3,7 +3,16 @@ import { ChatMessage } from '../domain/entities/ChatMessage';
 import { getAIContext } from './aiContextProvider';
 import { formatAIContext } from './formatAIContext';
 
-const OPENAI_URL = 'https://api.openai.com/v1/chat/completions';
+import { HttpClient } from '../../../lib/api-client/httpClient';
+import { endpoints } from '../../../lib/api-client/endpoints';
+
+type OpenAIResponse = {
+  choices: {
+    message: {
+      content: string;
+    };
+  }[];
+};
 
 export const aiCopilotRepositoryImpl: AICopilotRepository & {
   streamMessage?: (
@@ -12,52 +21,49 @@ export const aiCopilotRepositoryImpl: AICopilotRepository & {
     signal: AbortSignal,
   ) => Promise<void>;
 } = {
-  // ✅ EXISTING METHOD (UNCHANGED)
+
   async sendMessage(messages: ChatMessage[]) {
     const { orders, products } = getAIContext();
     const businessContext = formatAIContext(orders, products);
 
-    const response = await fetch(OPENAI_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
+    const response = await HttpClient.post<OpenAIResponse>(
+      endpoints.ai.chat,
+      {
         model: 'gpt-4o-mini',
         messages: [
           {
             role: 'system',
             content: `
-            You are an AI Copilot for an ecommerce admin dashboard.
+You are an AI Copilot for an ecommerce admin dashboard.
 
-              RULES:
-              - Answer ONLY based on store data
-              - NEVER show JSON to the user
-              - Respond with human-readable sentences
-                You can:
-              - Provide business insights
-              - You remember conversation context.
-              - You NEVER show JSON to the user.
+RULES:
+- Answer ONLY based on store data
+- NEVER show JSON to the user
+- Respond with human-readable sentences
 
-            Store data:
-            ${businessContext}
+Store data:
+${businessContext}
             `,
           },
           ...messages,
         ],
-      }),
-    });
-
-    const json = await response.json();
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
+        },
+      }
+    );
 
     return {
       role: 'assistant',
-      content: json.choices[0].message.content,
+      content: response.choices[0].message.content,
     };
   },
 
-  // 🆕 ADD THIS — STREAMING SUPPORT
+  // =========================
+  // STREAMING (fetch stays)
+  // =========================
   async streamMessage(
     messages: ChatMessage[],
     onChunk: (text: string) => void,
@@ -66,39 +72,38 @@ export const aiCopilotRepositoryImpl: AICopilotRepository & {
     const { orders, products } = getAIContext();
     const businessContext = formatAIContext(orders, products);
 
-    const response = await fetch(OPENAI_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        stream: true,
-        messages: [
-          {
-            role: 'system',
-            content: `
-              You are an AI Copilot for an ecommerce admin dashboard.
+    const response = await fetch(
+      `${process.env.EXPO_PUBLIC_API_URL}${endpoints.ai.chat}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          stream: true,
+          messages: [
+            {
+              role: 'system',
+              content: `
+You are an AI Copilot for an ecommerce admin dashboard.
 
-              RULES:
-              - Answer ONLY based on store data
-              - NEVER show JSON to the user
-              - Respond with human-readable sentences
-                You can:
-              - Provide business insights
-              - You remember conversation context.
-              - You NEVER show JSON to the user.
+RULES:
+- Answer ONLY based on store data
+- NEVER show JSON to the user
+- Respond with human-readable sentences
 
-            Store data:
-            ${businessContext}
-            `,
-          },
-          ...messages,
-        ],
-      }),
-      signal,
-    });
+Store data:
+${businessContext}
+              `,
+            },
+            ...messages,
+          ],
+        }),
+        signal,
+      }
+    );
 
     const reader = response.body?.getReader();
     if (!reader) return;
@@ -122,12 +127,9 @@ export const aiCopilotRepositoryImpl: AICopilotRepository & {
         try {
           const json = JSON.parse(line.replace('data:', '').trim());
           const token = json?.choices?.[0]?.delta?.content;
-
-          if (token) {
-            onChunk(token);
-          }
+          if (token) onChunk(token);
         } catch {
-          // ignore
+          // ignore malformed chunks
         }
       }
     }

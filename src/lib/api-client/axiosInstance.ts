@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
-  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
+    Authorization: `Bearer ${process.env.EXPO_PUBLIC_API_KEY}`,
   },
 });

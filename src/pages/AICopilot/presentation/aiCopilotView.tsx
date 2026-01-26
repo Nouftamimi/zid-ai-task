@@ -1,27 +1,65 @@
 import { View, Text, TextInput, Pressable, FlatList } from 'react-native';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ChatMessage } from '../domain/entities/ChatMessage';
-import { aiCopilotUseCase } from '../domain/usecase/aiCopilotUseCase';
+import { aiCopilotStreamUseCase } from '../domain/usecase/aiCopilotStreamUseCase';
 import { aiCopilotRepositoryImpl } from '../data/aiCopilotRepositoryImpl';
 
 export default function AICopilotView() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [streaming, setStreaming] = useState(false);
+
+  const abortRef = useRef<AbortController | null>(null);
 
   const send = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || streaming) return;
 
-    setLoading(true);
+    const userMessage: ChatMessage = {
+      role: 'user',
+      content: input,
+    };
 
-    const updated = await aiCopilotUseCase(aiCopilotRepositoryImpl)(
-      messages,
-      input,
-    );
+    const assistantMessage: ChatMessage = {
+      role: 'assistant',
+      content: '',
+    };
 
-    setMessages(updated);
+    setMessages(prev => [...prev, userMessage, assistantMessage]);
     setInput('');
-    setLoading(false);
+    setStreaming(true);
+
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    try {
+      await aiCopilotStreamUseCase(aiCopilotRepositoryImpl)(
+        messages,
+        userMessage.content,
+        chunk => {
+          setMessages(prev => {
+            const updated = [...prev];
+            const last = updated[updated.length - 1];
+
+            if (last.role === 'assistant') {
+              last.content += chunk;
+            }
+
+            return [...updated];
+          });
+        },
+        controller.signal,
+      );
+    } catch (e) {
+      // aborted or failed
+    } finally {
+      setStreaming(false);
+      abortRef.current = null;
+    }
+  };
+
+  const stop = () => {
+    abortRef.current?.abort();
+    setStreaming(false);
   };
 
   return (
@@ -41,17 +79,23 @@ export default function AICopilotView() {
         )}
       />
 
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', gap: 8 }}>
         <TextInput
           value={input}
           onChangeText={setInput}
           style={{ flex: 1, borderWidth: 1, padding: 8 }}
         />
-        <Pressable onPress={send}>
-          <Text>{loading ? '...' : 'Send'}</Text>
-        </Pressable>
+
+        {!streaming ? (
+          <Pressable onPress={send}>
+            <Text>Send</Text>
+          </Pressable>
+        ) : (
+          <Pressable onPress={stop}>
+            <Text style={{ color: 'red' }}>Stop</Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );
 }
- 

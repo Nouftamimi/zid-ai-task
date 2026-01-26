@@ -1,5 +1,8 @@
 import { ChatMessage } from '../entities/ChatMessage';
 import { AICopilotRepository } from '../repositories/aiCopilotRepository';
+import { buildConversationContext } from '../../data/aiConversationManager';
+import { parseAIAction } from '../../../../utils/parseAIAction';
+import { executeAIAction } from '../../data/aiActionExecutor';
 
 export const aiCopilotUseCase =
   (repo: AICopilotRepository) =>
@@ -8,22 +11,36 @@ export const aiCopilotUseCase =
     userInput: string,
   ): Promise<ChatMessage[]> => {
 
-    const updatedConversation: ChatMessage[] = [
-      ...conversation,
-      {
-        role: 'user', // ✅ now typed correctly
-        content: userInput,
-      },
-    ];
-
-    const aiReply: ChatMessage = await repo.sendMessage(
-      updatedConversation,
+    // 1️⃣ Build bounded conversation context
+    const context = buildConversationContext(
+      conversation,
+      userInput,
     );
 
+    // 2️⃣ Send to AI
+    const aiReply = await repo.sendMessage(context);
+
+    // 3️⃣ Try to parse action
+    const action = parseAIAction(aiReply.content);
+
+    // 4️⃣ If action → execute it and replace message
+    if (action) {
+      const resultText = await executeAIAction(action);
+
+      return [
+        ...context,
+        {
+          role: 'assistant',
+          content: resultText, // ✅ HUMAN MESSAGE ONLY
+        },
+      ];
+    }
+
+    // 5️⃣ Normal chat response
     return [
-      ...updatedConversation,
+      ...context,
       {
-        role: aiReply.role,      // must be 'assistant'
+        role: 'assistant',
         content: aiReply.content,
       },
     ];

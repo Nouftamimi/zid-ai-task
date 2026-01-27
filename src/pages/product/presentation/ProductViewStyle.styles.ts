@@ -24,12 +24,12 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 12,
   },
-//   card: {
-//     backgroundColor: '#fff',
-//     borderRadius: 12,
-//     padding: 14,
-//     marginBottom: 12,
-//   },
+emptyText: {
+  textAlign: 'center',
+  marginTop: 40,
+  color: '#888',
+  fontSize: 15,
+},
   horizontalCard: {
     width: 160,
     marginRight: 12,

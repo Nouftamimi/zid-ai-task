@@ -51,23 +51,30 @@ export default function OrderView() {
         onSearch={handleSearch}
       />
 
-      <ScrollView style={styles.container}>
-        {filtered.map(order => (
-          <View key={order.id} style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.id}>{order.id}</Text>
-              <Text style={styles.total}>${order.total}</Text>
-            </View>
+<ScrollView style={styles.container}>
+  {filtered.length === 0 ? (
+    <Text style={styles.emptyText}>
+      {t('NothingFound')}
+    </Text>
+  ) : (
+    filtered.map(order => (
+      <View key={order.id} style={styles.card}>
+        <View style={styles.row}>
+          <Text style={styles.id}>{order.id}</Text>
+          <Text style={styles.total}>${order.total}</Text>
+        </View>
 
-            <Text>{order.customer}</Text>
+        <Text>{order.customer}</Text>
 
-            <OrderStatus
-              status={order.status}
-              statusId={order.statusId}
-            />
-          </View>
-        ))}
-      </ScrollView>
+        <OrderStatus
+          status={order.status}
+          statusId={order.statusId}
+        />
+      </View>
+    ))
+  )}
+</ScrollView>
+
     </View>
   );
 }

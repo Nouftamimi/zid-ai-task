@@ -55,37 +55,44 @@ export default function ProductView() {
             />
 
             <ScrollView style={styles.container}>
-                <View>
+<View>
+  {filtered.length === 0 ? (
+    // 🔔 Empty state
+    <Text style={styles.emptyText}>
+      {t('NothingFound')}
+    </Text>
+  ) : (
+    <>
+      {/* Top Selling */}
+      <Text style={styles.section}>{t('TopSelling')}</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {topSelling.map(p => (
+          <ProductCard
+            key={p.id}
+            name={p.name}
+            price={p.price}
+            stock={p.stock}
+          />
+        ))}
+      </ScrollView>
 
-                    {/* Top Selling */}
-                    <Text style={styles.section}>{t('TopSelling')}</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        {topSelling.map(p => (
-                            <ProductCard
-                                key={p.id}
-                                name={p.name}
-                                price={p.price}
-                                stock={p.stock}
-                            />
-                        ))}
-                    </ScrollView>
+      {/* All Products */}
+      <Text style={[styles.section, { marginTop: 24 }]}>
+        {t('AllProducts')}
+      </Text>
 
-                    {/* All Products */}
-                    <Text style={[styles.section, { marginTop: 24 }]}>
-                        {t('AllProducts')}
-                    </Text>
+      {filtered.map(p => (
+        <ProductCard
+          key={p.id}
+          name={p.name}
+          price={p.price}
+          stock={p.stock}
+        />
+      ))}
+    </>
+  )}
+</View>
 
-                    {filtered.map(p => (
-                        <ProductCard
-                            key={p.id}
-                            name={p.name}
-                            price={p.price}
-                            stock={p.stock}
-                        />
-                    ))}
-
-
-                </View>
             </ScrollView>
         </View>
     );

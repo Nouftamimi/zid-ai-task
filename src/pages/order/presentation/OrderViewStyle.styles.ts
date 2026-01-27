@@ -41,4 +41,10 @@ export const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
   },
+  emptyText: {
+  textAlign: 'center',
+  marginTop: 40,
+  color: '#888',
+  fontSize: 15,
+},
 });

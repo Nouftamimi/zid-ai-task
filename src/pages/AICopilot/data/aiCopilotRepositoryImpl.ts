@@ -3,16 +3,8 @@ import { ChatMessage } from '../domain/entities/ChatMessage';
 import { getAIContext } from './aiContextProvider';
 import { formatAIContext } from './formatAIContext';
 
-import { HttpClient } from '../../../lib/api-client/httpClient';
-import { endpoints } from '../../../lib/api-client/endpoints';
-
-type OpenAIResponse = {
-  choices: {
-    message: {
-      content: string;
-    };
-  }[];
-};
+import { endpoints } from '../../../lib/endpoints';
+import { apiClient } from '@/src/lib/apiClient';
 
 export const aiCopilotRepositoryImpl: AICopilotRepository & {
   streamMessage?: (
@@ -23,10 +15,9 @@ export const aiCopilotRepositoryImpl: AICopilotRepository & {
 } = {
 
   async sendMessage(messages: ChatMessage[]) {
-    const { orders, products } = getAIContext();
+        const { orders, products } = getAIContext();
     const businessContext = formatAIContext(orders, products);
-
-    const response = await HttpClient.post<OpenAIResponse>(
+    const { data } = await apiClient.post<OpenAIResponse>(
       endpoints.ai.chat,
       {
         model: 'gpt-4o-mini',
@@ -34,30 +25,25 @@ export const aiCopilotRepositoryImpl: AICopilotRepository & {
           {
             role: 'system',
             content: `
-You are an AI Copilot for an ecommerce admin dashboard.
+            You are an AI Copilot for an ecommerce admin dashboard.
 
-RULES:
-- Answer ONLY based on store data
-- NEVER show JSON to the user
-- Respond with human-readable sentences
+            RULES:
+            - Answer ONLY based on store data
+            - NEVER show JSON to the user
+            - Respond with human-readable sentences
 
-Store data:
-${businessContext}
+            Store data:
+            ${businessContext}
             `,
           },
           ...messages,
         ],
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
-        },
       }
     );
 
     return {
       role: 'assistant',
-      content: response.choices[0].message.content,
+      content: data.choices[0].message.content,
     };
   },
 

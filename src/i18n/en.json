@@ -24,5 +24,6 @@
   "AICopilot": "AI Copilot",
   "AIisthinking": "AI is thinking...",
   "Typeyourmessage": "Type your message...",
-  "errorMsg": "An error occurred. Please try again later."
+  "errorMsg": "An error occurred. Please try again later.",
+  "SomethingWentWrong": "Something went wrong"
 }

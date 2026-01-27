@@ -2,7 +2,7 @@
 import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { initI18n } from '@/src/i18n';
-import { setupInterceptors } from '@/src/lib/api-client/interceptors';
+import { setupInterceptors } from '@/src/lib/interceptors';
 setupInterceptors();
 
 export default function RootLayout() {

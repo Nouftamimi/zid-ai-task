@@ -1,9 +1,9 @@
-import { axiosInstance } from './axiosInstance';
+import { apiClient } from './apiClient';
 import { AxiosError } from 'axios';
 import { ApiError } from './apiError';
 
 export const setupInterceptors = () => {
-  axiosInstance.interceptors.response.use(
+  apiClient.interceptors.response.use(
     response => response,
     (error: AxiosError<any>) => {
       const apiError: ApiError = {
@@ -16,7 +16,6 @@ export const setupInterceptors = () => {
         code: error.response?.data?.error?.code,
       };
 
-      // ✅ No UI logic here
       return Promise.reject(apiError);
     }
   );

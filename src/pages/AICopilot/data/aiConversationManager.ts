@@ -1,6 +1,6 @@
 import { ChatMessage } from '../domain/entities/ChatMessage';
 
-const MAX_MESSAGES = 12; // 👈 important
+const MAX_MESSAGES = 12;
 
 export const buildConversationContext = (
   conversation: ChatMessage[],
@@ -11,6 +11,5 @@ export const buildConversationContext = (
     { role: 'user', content: userInput },
   ];
 
-  // Keep only the last N messages
   return updated.slice(-MAX_MESSAGES);
 };

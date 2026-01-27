@@ -1,34 +1,3 @@
-// export const formatAIContext = (
-//   orders: any[],
-//   products: any[],
-// ) => {
-//   const totalOrders = orders.length;
-//   const delivered = orders.filter(o => o.statusId === 1).length;
-//   const pending = orders.filter(o => o.statusId === 2).length;
-//   const failed = orders.filter(o => o.statusId === 3).length;
-
-//   const lowStock = products.filter(p => p.stock < 10);
-//   const bestSeller = products.reduce((prev, curr) =>
-//     curr.sold > prev.sold ? curr : prev
-//   );
-
-//   return `
-// STORE SNAPSHOT:
-
-// ORDERS:
-// - Total orders: ${totalOrders}
-// - Delivered: ${delivered}
-// - In transit: ${pending}
-// - Failed: ${failed}
-
-// PRODUCTS:
-// - Total products: ${products.length}
-// - Low stock products: ${lowStock.map(p => p.name).join(', ') || 'None'}
-// - Best selling product: ${bestSeller.name} (${bestSeller.sold} sold)
-// `;
-// };
-
-
 export const formatAIContext = (
   orders: any[],
   products: any[],

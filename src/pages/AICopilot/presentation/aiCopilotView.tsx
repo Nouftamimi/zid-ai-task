@@ -1,12 +1,5 @@
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  FlatList,
-  Alert,
-} from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, TextInput, Pressable, FlatList, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { ChatMessage } from '../domain/entities/ChatMessage';
 import { aiCopilotUseCase } from '../domain/usecase/aiCopilotUseCase';
 import { aiCopilotRepositoryImpl } from '../data/aiCopilotRepositoryImpl';
@@ -15,6 +8,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import TypingIndicator from '../../../component/TypingDots/TypingDots';
+import { realm } from '@/src/database';   // 👈 NEW
+
 export default function AICopilotView() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
@@ -22,43 +17,51 @@ export default function AICopilotView() {
 
   const { t } = useTranslation();
   const navigation = useNavigation();
-const send = async () => {
-  if (!input.trim() || loading) return;
 
-  const userMessage: ChatMessage = {
-    role: 'user',
-    content: input,
+  useEffect(() => {
+    const stored = realm
+      .objects<ChatMessage>('ChatMessage')
+      .sorted('updatedAt');
+
+    setMessages(JSON.parse(JSON.stringify(stored)));
+  }, []);
+
+  const send = async () => {
+    if (!input.trim() || loading) return;
+
+    const userMessage: ChatMessage = {
+      role: 'user',
+      content: input,
+    };
+
+    const typingMessage: ChatMessage = {
+      role: 'assistant',
+      content: '', 
+    };
+
+    setMessages(prev => [...prev, userMessage, typingMessage]);
+    setInput('');
+    setLoading(true);
+
+    try {
+      const updatedMessages = await aiCopilotUseCase(
+        aiCopilotRepositoryImpl
+      )(messages, userMessage.content);
+
+      setMessages(updatedMessages);
+    } catch (e: any) {
+      const errorMessage =
+        e?.message ||
+        e?.response?.data?.error?.message ||
+        t('errorMsg');
+
+      Alert.alert('AI Copilot', errorMessage, [
+        { text: 'OK' },
+      ]);
+    } finally {
+      setLoading(false);
+    }
   };
-
-  const typingMessage: ChatMessage = {
-    role: 'assistant',
-    content: '', // placeholder
-  };
-
-  setMessages(prev => [...prev, userMessage, typingMessage]);
-  setInput('');
-  setLoading(true);
-
-  try {
-    const updatedMessages = await aiCopilotUseCase(
-      aiCopilotRepositoryImpl
-    )(messages, userMessage.content);
-
-    setMessages(updatedMessages);
-  } catch (e: any) {
-    const errorMessage =
-      e?.message ||
-      e?.response?.data?.error?.message ||
-      t('errorMsg');
-
-    Alert.alert('AI Copilot', errorMessage, [
-      { text: 'OK' },
-    ]);
-  } finally {
-    setLoading(false);
-  }
-};
-
 
   return (
     <View style={styles.container}>
@@ -98,15 +101,14 @@ const send = async () => {
                     : styles.aiBubble,
                 ]}
               >
-              {item.role === 'assistant' &&
-              loading &&
-              item === messages[messages.length - 1] &&
-              item.content === '' ? (
-                <TypingIndicator />
-              ) : (
-                <Text>{item.content}</Text>
-              )}
-
+                {item.role === 'assistant' &&
+                loading &&
+                item === messages[messages.length - 1] &&
+                item.content === '' ? (
+                  <TypingIndicator />
+                ) : (
+                  <Text>{item.content}</Text>
+                )}
               </View>
             </View>
           );

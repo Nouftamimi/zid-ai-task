@@ -1,8 +1,9 @@
-// app/_layout.tsx
 import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { initI18n } from '@/src/i18n';
 import { setupInterceptors } from '@/src/lib/interceptors';
+import { initNotifications } from '@/src/notifications';
+
 setupInterceptors();
 
 export default function RootLayout() {
@@ -10,9 +11,10 @@ export default function RootLayout() {
 
   useEffect(() => {
     initI18n().then(() => setReady(true));
+    initNotifications();
   }, []);
 
-  if (!ready) return null; // ⛔ no flicker
+  if (!ready) return null;
 
   return <Stack screenOptions={{ headerShown: false }} />;
 }

@@ -1,21 +1,26 @@
 import { View, Text, ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
 import { styles } from './ProductViewStyle.styles';
-import { getProducts } from '../domain/usecase/productUseCase';
+import { productUseCase } from '../domain/usecase/productUseCase';
 import { productRepositoryImpl } from '../data/productRepositoryImpl';
 import { Product } from '../domain/entities/Product';
 import SearchBar from '@/src/component/SearchBar/SearchBar';
 import ProductCard from '@/src/component/ProductCard/ProductCard';
 import { useTranslation } from 'react-i18next';
+import { simulateLowStock } from '@/src/notifications/pushSimulator';
 
 export default function ProductView() {
     const [products, setProducts] = useState<Product[]>([]);
     const [filtered, setFiltered] = useState<Product[]>([]);
     const { t } = useTranslation();
     useEffect(() => {
-        getProducts(productRepositoryImpl)().then(data => {
+        productUseCase(productRepositoryImpl).getProducts().then(data => {
             setProducts(data);
-            setFiltered(data); // show all initially
+            setFiltered(data);
+
+            if (data.length > 0) {
+                simulateLowStock(data[0].id);
+            }
         });
     }, []);
 

@@ -1,12 +1,13 @@
 import { View, Text, ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
 import { styles } from './OrderViewStyle.styles';
-import { getOrders } from '../domain/usecase/orderUseCase';
+import { orderUseCase } from '../domain/usecase/orderUseCase';
 import { orderRepositoryImpl } from '../data/orderRepositoryImpl';
 import { Order } from '../domain/entities/Order';
 import OrderStatus from '@/src/component/OrderStatus/OrderStatus';
 import SearchBar from '@/src/component/SearchBar/SearchBar';
 import { useTranslation } from 'react-i18next';
+import { simulateOrderUpdate } from '@/src/notifications/pushSimulator';
 
 export default function OrderView() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -14,11 +15,16 @@ export default function OrderView() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    getOrders(orderRepositoryImpl)().then(data => {
-      setOrders(data);
-      setFiltered(data); 
-    });
-  }, []);
+  orderUseCase(orderRepositoryImpl).getOrders().then(data => {
+    setOrders(data);
+    setFiltered(data); 
+
+    if (data.length > 0) {
+      simulateOrderUpdate(data[0].id);
+    }
+  });
+}, []);
+
 
   const handleSearch = (text: string) => {
     if (!text) {

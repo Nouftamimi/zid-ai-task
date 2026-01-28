@@ -161,24 +161,6 @@ Action execution
 
 _______________________________________________________________________________________
 
-🧪 Unit tests
-_______________________________________________________________________________________
-
-For your AI Copilot, the highest-value tests are:
-1- Use case logic
-2- Builds conversation context
-3- Calls repository
-4- Executes AI actions
-5- Returns correct human-readable message
-6- Action parsing
-7- JSON → action
-8- Invalid JSON → ignored
-9- Action execution
-10- Updates order status
-11- Returns correct confirmation text
-
-_______________________________________________________________________________________
-
 🌐 RTL & Bilingual Support
 _______________________________________________________________________________________
 
@@ -186,14 +168,6 @@ The application supports both LTR and RTL layouts to handle bilingual use cases.
 
 
 ⭕️ Kindly note that mock data has not been translated, as the main focus is on frontend alignment and layout validation.
-_______________________________________________________________________________________
-
-🚀 Production Scalability & Environment Strategy
-_______________________________________________________________________________________
-
-The app is designed to scale to production with three environments: development, preview, and production. Each environment uses its own API configuration and keys managed through Expo environment variables. A CI/CD pipeline is used to automate builds and releases, allowing safe testing in non-production environments before deploying to the App Store. 
-
-- The production build is connected to live APIs and has been successfully uploaded to app store.
 
 _______________________________________________________________________________________
 
@@ -212,3 +186,35 @@ The application includes simulated notifications for order and product updates.
 🧪 To test the notifications are displayed when the user navigates to the corresponding order or product views, allowing the notification flow to be demonstrated and validated.
 
 Please note that this is a simulated implementation. For a scalable production setup, notifications should be integrated with the backend to automatically trigger push notifications based on real-time order or product events.
+
+_______________________________________________________________________________________
+
+🧪 Unit tests
+_______________________________________________________________________________________
+
+For your AI Copilot, the highest-value tests are:
+1- Use case logic
+2- Builds conversation context
+3- Calls repository
+4- Executes AI actions
+5- Returns correct human-readable message
+6- Action parsing
+7- JSON → action
+8- Invalid JSON → ignored
+9- Action execution
+10- Updates order status
+11- Returns correct confirmation text
+
+_______________________________________________________________________________________
+
+🚀 Production Scalability & Environment Strategy
+_______________________________________________________________________________________
+
+The app is designed to scale to production with three environments: development, preview, and production. Each environment uses its own API configuration and keys managed through Expo environment variables. A CI/CD pipeline is used to automate builds and releases, allowing safe testing in non-production environments before deploying to the App Store. 
+
+- The production build is connected to live APIs and has been successfully uploaded to app store.
+
+_______________________________________________________________________________________
+
+👀 Take a peek on a real device (screenshots below)
+_______________________________________________________________________________________

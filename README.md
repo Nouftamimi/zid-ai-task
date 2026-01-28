@@ -48,99 +48,102 @@ ________________________________________________________________________________
 📂 Folder Structure
 _______________________________________________________________________________________
 
+```text
 app/
- ├─ components/
- │   └─ ProductInfo/
- │       └─ ProductCard/
- │           ├─ ProductCard.tsx
- │           └─ styles.ts
- 
- ├─ lib/
- │   ├─ api-client/
- │   ├─ apiError.ts
- │   ├─ endpoints.ts
- │   ├─ httpClient.ts
- │   └─ interceptors.ts
+├─ components/
+│  └─ ProductInfo/
+│     └─ ProductCard/
+│        ├─ ProductCard.tsx
+│        └─ styles.ts
+│
+├─ lib/
+│  ├─ api-client/
+│  ├─ apiError.ts
+│  ├─ endpoints.ts
+│  ├─ httpClient.ts
+│  └─ interceptors.ts
+│
+├─ notification/
+│
+├─ pages/
+│  ├─ home/
+│  │  ├─ data/
+│  │  │  ├─ mock/
+│  │  │  │  └─ home.mock.json
+│  │  │  └─ homeRepositoryImpl.ts
+│  │  ├─ domain/
+│  │  │  ├─ entities/
+│  │  │  ├─ repositories/
+│  │  │  │  └─ HomeRepository.ts
+│  │  │  └─ usecase/
+│  │  │     └─ homeUseCase.ts
+│  │  └─ presentation/
+│  │     ├─ HomeView.tsx
+│  │     └─ HomeViewStyle.styles.ts
+│  │
+│  ├─ order/
+│  │  ├─ data/
+│  │  │  ├─ __tests__/
+│  │  │  ├─ mock/
+│  │  │  │  └─ order.mock.json
+│  │  │  └─ orderRepositoryImpl.ts
+│  │  ├─ domain/
+│  │  │  ├─ entities/
+│  │  │  ├─ repositories/
+│  │  │  │  └─ OrderRepository.ts
+│  │  │  └─ usecase/
+│  │  │     └─ orderUseCase.ts
+│  │  └─ presentation/
+│  │     ├─ OrderView.tsx
+│  │     └─ OrderViewStyle.styles.ts
+│  │
+│  ├─ product/
+│  │  ├─ data/
+│  │  │  ├─ __tests__/
+│  │  │  ├─ mock/
+│  │  │  │  └─ product.mock.json
+│  │  │  └─ productRepositoryImpl.ts
+│  │  ├─ domain/
+│  │  │  ├─ entities/
+│  │  │  ├─ repositories/
+│  │  │  │  └─ productRepository.ts
+│  │  │  └─ usecase/
+│  │  │     └─ productUseCase.ts
+│  │  └─ presentation/
+│  │     ├─ productView.tsx
+│  │     └─ productViewStyle.styles.ts
+│  │
+│  ├─ AICopilot/
+│  │  ├─ data/
+│  │  │  ├─ __tests__/
+│  │  │  ├─ aiCopilotRepositoryImpl.ts
+│  │  │  ├─ aiActionExecutor.ts
+│  │  │  ├─ aiContextProvider.ts
+│  │  │  └─ aiConversationManager.ts
+│  │  ├─ domain/
+│  │  │  ├─ entities/
+│  │  │  │  ├─ AICopilotAction.ts
+│  │  │  │  ├─ ChatMessage.ts
+│  │  │  │  └─ OpenAIResponse.ts
+│  │  │  ├─ repositories/
+│  │  │  │  └─ aiCopilotRepository.ts
+│  │  │  └─ usecase/
+│  │  │     └─ aiCopilotUseCase.ts
+│  │  └─ presentation/
+│  │     ├─ aiCopilotView.tsx
+│  │     └─ aiCopilotViewStyle.styles.ts
+│
+├─ utils/
+│
+├─ database/
+│  ├─ index.ts              # Realm instance
+│  ├─ schemas/
+│  │  ├─ ProductSchema.ts
+│  │  ├─ OrderSchema.ts
+│  │  └─ ChatMessageSchema.ts
+│  └─ migrations.ts
+```
 
- ├─ notification/
-
- ├─ pages/
- │   ├─ home/
- │   │   ├─ data/
- │   │   │   ├─ mock/
- │   │   │   │   └─ home.mock.json
- │   │   │   └─ homeRepositoryImpl.ts
- │   │   ├─ domain/
- │   │   │   ├─ entities/
- │   │   │   ├─ repositories/
- │   │   │   │   └─ HomeRepository.ts
- │   │   │   └─ usecase/
- │   │   │       └─ homeUseCase.ts
- │   │   └─ presentation/
- │   │       ├─ HomeView.tsx
- │   │       └─ HomeViewStyle.styles.ts
-
- │   ├─ order/
- │   │   ├─ data/
- │   │   │   ├─ __tests__/
- │   │   │   ├─ mock/
- │   │   │   │   └─ order.mock.json
- │   │   │   └─ orderRepositoryImpl.ts
- │   │   ├─ domain/
- │   │   │   ├─ entities/
- │   │   │   ├─ repositories/
- │   │   │   │   └─ OrderRepository.ts
- │   │   │   └─ usecase/
- │   │   │       └─ orderUseCase.ts
- │   │   └─ presentation/
- │   │       ├─ OrderView.tsx
- │   │       └─ OrderViewStyle.styles.ts
-
- │   ├─ product/
- │   │   ├─ data/
- │   │   │   ├─ __tests__/
- │   │   │   ├─ mock/
- │   │   │   │   └─ product.mock.json
- │   │   │   └─ productRepositoryImpl.ts
- │   │   ├─ domain/
- │   │   │   ├─ entities/
- │   │   │   ├─ repositories/
- │   │   │   │   └─ productRepository.ts
- │   │   │   └─ usecase/
- │   │   │       └─ productUseCase.ts
- │   │   └─ presentation/
- │   │       ├─ productView.tsx
- │   │       └─ productViewStyle.styles.ts
-
- │   ├─ AICopilot/
- │   │   ├─ data/
- │   │   │   ├─ __tests__/
- │   │   │   ├─ aiCopilotRepositoryImpl.ts
- │   │   │   ├─ aiActionExecutor.ts
- │   │   │   ├─ aiContextProvider.ts
- │   │   │   └─ aiConversationManager.ts
- │   │   ├─ domain/
- │   │   │   ├─ entities/
- │   │   │   │   ├─ AICopilotAction.ts
- │   │   │   │   ├─ ChatMessage.ts
- │   │   │   │   └─ OpenAIResponse.ts
- │   │   │   ├─ repositories/
- │   │   │   │   └─ aiCopilotRepository.ts
- │   │   │   └─ usecase/
- │   │   │       └─ aiCopilotUseCase.ts
- │   │   └─ presentation/
- │   │       ├─ aiCopilotView.tsx
- │   │       └─ aiCopilotViewStyle.styles.ts
-
- ├─ utils/
-
- ├─ database/
- │   ├─ index.ts              # Realm instance
- │   ├─ schemas/
- │   │   ├─ ProductSchema.ts
- │   │   ├─ OrderSchema.ts
- │   │   └─ ChatMessageSchema.ts
- │   └─ migrations.ts
  
 _______________________________________________________________________________________
 

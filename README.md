@@ -136,10 +136,8 @@ app/
 ├─ utils/
 │
 ├─ database/
-│  ├─ index.ts              # Realm instance
+│  ├─ index.ts              # Realm
 │  ├─ schemas/
-│  │  ├─ ProductSchema.ts
-│  │  ├─ OrderSchema.ts
 │  │  └─ ChatMessageSchema.ts
 │  └─ migrations.ts
 ```

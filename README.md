@@ -211,11 +211,15 @@ ________________________________________________________________________________
 🚀 Production Scalability & Environment Strategy
 _______________________________________________________________________________________
 
-The app is designed to scale to production with three environments: development, preview, and production. Each environment uses its own API configuration and keys managed through Expo environment variables. A CI/CD pipeline is used to automate builds and releases, allowing safe testing in non-production environments before deploying to the App Store. 
+The app is designed to scale to production with three environments: development, preview, and production. Each environment uses its own API configuration and keys managed through Expo environment variables. A CI/CD pipeline is used to automate builds and releases, allowing safe testing in non-production environments before deploying to the App Store.
+
+<img width="900" height="600" alt="Screenshot 2026-01-28 at 5 34 50 AM" src="https://github.com/user-attachments/assets/008861f7-75a2-42ce-90be-0099224157ad" />
+
 
 - The production build is connected to live APIs and has been successfully uploaded to app store.
 
-_______________________________________________________________________________________
+____<img width="600" height="300" alt="Screenshot 2026-01-28 at 5 39 53 AM" src="https://github.com/user-attachments/assets/68608632-a545-424c-9101-30350e89442e" />
+___________________________________________________________________________________
 
 👀 Take a peek on a real device (screenshots below)
 _______________________________________________________________________________________

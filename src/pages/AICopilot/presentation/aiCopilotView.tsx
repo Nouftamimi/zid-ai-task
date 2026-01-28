@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import TypingIndicator from '../../../component/TypingDots/TypingDots';
 import { realm } from '@/src/database';
+import { BackArrow } from '@/src/component/BackArrow/BackArrow';
 
 export default function AICopilotView() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -69,11 +70,10 @@ export default function AICopilotView() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Pressable onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={22} color="#222" />
-        </Pressable>
+        <BackArrow onPress={() => navigation.goBack()} />
         <Text style={styles.headerTitle}>{t('AICopilot')}</Text>
       </View>
+
 
       {/* Messages */}
       <FlatList

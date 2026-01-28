@@ -248,7 +248,16 @@ ________________________________________________________________________________
 
 AI chatting
 
-https://github.com/user-attachments/assets/b09434e1-5852-45e8-8bef-252cd6fffd40
+
+
+PART 1
+https://github.com/user-attachments/assets/855e1846-ecc9-409d-b5c3-6a043ea5065f
+
+
+
+
+PART 2
+https://github.com/user-attachments/assets/459f3734-2801-4096-930b-e2c5fe9f469a
 
 
 _______________________________________________________________________________________

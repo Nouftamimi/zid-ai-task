@@ -202,10 +202,8 @@ For your AI Copilot, the highest-value tests are:
 | 3  | Calls repository                       |
 | 4  | Executes AI actions                    |
 | 5  | Returns correct human-readable message |
-| 6  | Action parsing                         |
 | 7  | JSON → action                          |
 | 8  | Invalid JSON → ignored                 |
-| 9  | Action execution                       |
 | 10 | Updates order status                   |
 | 11 | Returns correct confirmation text      |
 

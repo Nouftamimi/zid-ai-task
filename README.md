@@ -219,6 +219,12 @@ The app is designed to scale to production with three environments: development,
 - The production build is connected to live APIs and has been successfully uploaded to app store.
 
 ____<img width="600" height="300" alt="Screenshot 2026-01-28 at 5 39 53 AM" src="https://github.com/user-attachments/assets/68608632-a545-424c-9101-30350e89442e" />
+
+Please note that all environment variables are managed and configured via Expo.
+
+<img width="900" height="600" alt="Screenshot 2026-01-28 at 5 35 24 AM" src="https://github.com/user-attachments/assets/cd8e254d-6e59-4dfb-ad74-1ec1ca1c9bf1" />
+
+
 ___________________________________________________________________________________
 
 👀 Take a peek on a real device (screenshots below)

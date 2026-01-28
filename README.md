@@ -194,17 +194,21 @@ ________________________________________________________________________________
 _______________________________________________________________________________________
 
 For your AI Copilot, the highest-value tests are:
-1- Use case logic
-2- Builds conversation context
-3- Calls repository
-4- Executes AI actions
-5- Returns correct human-readable message
-6- Action parsing
-7- JSON → action
-8- Invalid JSON → ignored
-9- Action execution
-10- Updates order status
-11- Returns correct confirmation text
+
+| #  | Test Coverage Item                     |
+|----|----------------------------------------|
+| 1  | Use case logic                         |
+| 2  | Builds conversation context            |
+| 3  | Calls repository                       |
+| 4  | Executes AI actions                    |
+| 5  | Returns correct human-readable message |
+| 6  | Action parsing                         |
+| 7  | JSON → action                          |
+| 8  | Invalid JSON → ignored                 |
+| 9  | Action execution                       |
+| 10 | Updates order status                   |
+| 11 | Returns correct confirmation text      |
+
 
 _______________________________________________________________________________________
 
@@ -246,7 +250,7 @@ ________________________________________________________________________________
 
 AI chatting
 
-https://github.com/user-attachments/assets/eb7d955d-dcdd-4744-8f2b-7bf35dd97869
+https://github.com/user-attachments/assets/b09434e1-5852-45e8-8bef-252cd6fffd40
 
 
 _______________________________________________________________________________________

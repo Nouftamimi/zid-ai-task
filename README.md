@@ -221,14 +221,14 @@ ________________________________________________________________________________
 _______________________________________________________________________________________
 
 
-iOS Full tour of the app 
+iOS complete tour of the app 
 
-https://github.com/user-attachments/assets/af578d4d-8540-459b-a340-b3b816db61a7
+https://github.com/user-attachments/assets/d708fe66-a3ed-4016-8cf4-d60ec0ab57bb
 
 
 _______________________________________________________________________________________
 
-Android Full tour of the app 
+Android complete tour of the app 
 
 https://github.com/user-attachments/assets/4674a063-4408-4620-94da-250d70271830
 

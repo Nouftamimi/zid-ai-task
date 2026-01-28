@@ -223,7 +223,7 @@ ________________________________________________________________________________
 
 iOS Full tour of the app 
 
-https://github.com/user-attachments/assets/eb7d955d-dcdd-4744-8f2b-7bf35dd97869
+https://github.com/user-attachments/assets/af578d4d-8540-459b-a340-b3b816db61a7
 
 
 _______________________________________________________________________________________
@@ -236,7 +236,7 @@ ________________________________________________________________________________
 
 AI chatting
 
-https://github.com/user-attachments/assets/af578d4d-8540-459b-a340-b3b816db61a7
+https://github.com/user-attachments/assets/eb7d955d-dcdd-4744-8f2b-7bf35dd97869
 
 
 _______________________________________________________________________________________

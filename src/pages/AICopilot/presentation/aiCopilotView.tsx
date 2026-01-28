@@ -1,5 +1,5 @@
 import { View, Text, TextInput, Pressable, FlatList, Alert } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChatMessage } from '../domain/entities/ChatMessage';
 import { aiCopilotUseCase } from '../domain/usecase/aiCopilotUseCase';
 import { aiCopilotRepositoryImpl } from '../data/aiCopilotRepositoryImpl';
@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import TypingIndicator from '../../../component/TypingDots/TypingDots';
-import { realm } from '@/src/database';   // 👈 NEW
+import { realm } from '@/src/database';
 
 export default function AICopilotView() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -18,6 +18,9 @@ export default function AICopilotView() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
+  const flatListRef = useRef<FlatList>(null);
+
+  /** Load stored messages */
   useEffect(() => {
     const stored = realm
       .objects<ChatMessage>('ChatMessage')
@@ -26,6 +29,7 @@ export default function AICopilotView() {
     setMessages(JSON.parse(JSON.stringify(stored)));
   }, []);
 
+  /** Send message */
   const send = async () => {
     if (!input.trim() || loading) return;
 
@@ -36,7 +40,7 @@ export default function AICopilotView() {
 
     const typingMessage: ChatMessage = {
       role: 'assistant',
-      content: '', 
+      content: '',
     };
 
     setMessages(prev => [...prev, userMessage, typingMessage]);
@@ -55,9 +59,7 @@ export default function AICopilotView() {
         e?.response?.data?.error?.message ||
         t('errorMsg');
 
-      Alert.alert('AI Copilot', errorMessage, [
-        { text: 'OK' },
-      ]);
+      Alert.alert('AI Copilot', errorMessage, [{ text: 'OK' }]);
     } finally {
       setLoading(false);
     }
@@ -70,16 +72,22 @@ export default function AICopilotView() {
         <Pressable onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={22} color="#222" />
         </Pressable>
-        <Text style={styles.headerTitle}>
-          {t('AICopilot')}
-        </Text>
+        <Text style={styles.headerTitle}>{t('AICopilot')}</Text>
       </View>
 
       {/* Messages */}
       <FlatList
+        ref={flatListRef}
         data={messages}
         keyExtractor={(_, i) => i.toString()}
         contentContainerStyle={styles.list}
+        keyboardDismissMode="on-drag"
+        onLayout={() =>
+          flatListRef.current?.scrollToEnd({ animated: false })
+        }
+        onContentSizeChange={() =>
+          flatListRef.current?.scrollToEnd({ animated: true })
+        }
         renderItem={({ item }) => {
           const isUser = item.role === 'user';
 
@@ -96,9 +104,7 @@ export default function AICopilotView() {
               <View
                 style={[
                   styles.bubble,
-                  isUser
-                    ? styles.userBubble
-                    : styles.aiBubble,
+                  isUser ? styles.userBubble : styles.aiBubble,
                 ]}
               >
                 {item.role === 'assistant' &&
@@ -121,12 +127,11 @@ export default function AICopilotView() {
           value={input}
           onChangeText={setInput}
           placeholder={
-            loading
-              ? t('AIisthinking')
-              : t('Typeyourmessage')
+            loading ? t('AIisthinking') : t('Typeyourmessage')
           }
           editable={!loading}
           style={styles.input}
+          multiline
         />
 
         <Pressable

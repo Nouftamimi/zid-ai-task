@@ -1,13 +1,5 @@
-
 import * as Updates from 'expo-updates';
-import {
-  View,
-  Text,
-  ScrollView,
-  Dimensions,
-  I18nManager,
-  Pressable,
-} from 'react-native';
+import { View, Text, ScrollView, Dimensions, I18nManager, Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { getHomeDashboard } from '../domain/usecases/homeUseCase';
@@ -18,7 +10,8 @@ import LowStockCard from '@/src/component/LowStockCard/LowStockCard';
 import StatCard from '@/src/component/StatCard/StatCard';
 import { useTranslation } from 'react-i18next';
 import { setLanguage } from '@/src/i18n';
-
+import { navigate } from '@/src/navigation/navigationService';
+import { appRouter } from '@/src/navigation/appRouter';
 const screenWidth = Dimensions.get('window').width;
 const isRTL = I18nManager.isRTL;
 
@@ -49,9 +42,7 @@ export default function HomeView() {
 
   return (
     <View style={{ flex: 1 }}>
-      {/* ================= SCROLL CONTENT ================= */}
       <ScrollView style={styles.container}>
-        {/* ---------- HEADER ---------- */}
         <View style={styles.header}>
           <View style={styles.headerRow}>
             <View>
@@ -192,10 +183,8 @@ export default function HomeView() {
         </View>
         </View>
       </ScrollView>
-
-      {/* ================= FLOATING AI BUTTON ================= */}
       <Pressable
-        onPress={() => router.push('/ai-copilot')}
+        onPress={() => navigate(appRouter.aiCopilot())}
         style={{
           position: 'absolute',
           bottom: 24,

@@ -36,9 +36,26 @@ async sendMessage(messages: ChatMessage[]) {
     {
       model: 'gpt-4o-mini',
       messages: [
-        { role: 'system', content: businessContext },
-        ...messages,
-      ],
+          {
+            role: 'system',
+            content: `
+            You are an AI Copilot for an ecommerce admin dashboard.
+
+              RULES:
+              - Answer ONLY based on store data
+              - NEVER show JSON to the user
+              - Respond with human-readable sentences
+                You can:
+              - Provide business insights
+              - You remember conversation context.
+              - You NEVER show JSON to the user.
+
+            Store data:
+            ${businessContext}
+            `,
+          },
+          ...messages,
+        ],
     }
   );
 

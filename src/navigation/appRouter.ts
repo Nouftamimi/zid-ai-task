@@ -1,18 +1,16 @@
-// import { router } from 'expo-router';
+export const appRouter = {
+  home: () => '/',
+  aiCopilot: () => '/ai-copilot',
 
-// export const AppRoutes = {
-//   home: '/',
-//   orders: '/order',
-//   products: '/product',
-//   aiCopilot: '/AICopilot',
-// };
+  product: (id: string) => ({ // this is exmple in how we can use it with the query
+    pathname: '/product/[id]',
+    params: { id },
+  }),
 
-// export const AppRouter = {
-//   push: (route: keyof typeof AppRoutes) =>
-//     router.push(AppRoutes[route]),
+  cart: () => '/cart',
 
-//   replace: (route: keyof typeof AppRoutes) =>
-//     router.replace(AppRoutes[route]),
-
-//   back: () => router.back(),
-// };
+  checkout: (orderId: string) => ({
+    pathname: '/checkout/[orderId]',
+    params: { orderId },
+  }),
+} as const;

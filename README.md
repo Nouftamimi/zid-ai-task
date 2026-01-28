@@ -1,108 +1,214 @@
-## Getting Started
+_______________________________________________________________________________________
 
-Create a new project by running:
+📱 Project Architecture Overview
+_______________________________________________________________________________________
 
-```bash
-bun create expo-app --template with-envs
-```
+This project is built using Clean Architecture to ensure scalability, maintainability, and testability as the application grows.
 
-## Setup
+The architecture clearly separates UI, business logic, and data handling, making the codebase easy to extend and reason about.
+_______________________________________________________________________________________
 
-1. Create a new EAS project at [Expo](https://expo.dev), and copy the project ID from your project settings.
-   <img width="951" alt="Screenshot 2025-01-22 at 3 54 27 PM" src="https://github.com/user-attachments/assets/35fb62be-dee0-4ee8-acb1-0fd85ef82ceb" />
+🧱 Architecture Approach
 
-2. Configure environment variables in your EAS project:
+Clean Architecture
 
-- Set `APP_ENV` to `development`, `preview`, or `production` based on the environment.
-- Set three `EXPO_PUBLIC_API_URL` based on the environment. (Add more envs if you need)
-- Add any additional required environment variables. Check `utils/environment.ts` for the full list.
-  ![image](https://github.com/user-attachments/assets/13edbebc-c2a3-49d4-aa90-c5d4d5d105ae)
+The app is divided into three main layers:
 
-3. Update the following constants in `app.config.ts`:
-   - Set `EAS_PROJECT_ID` to your Expo project ID.
-   - Set `PROJECT_SLUG` to your project slug.
-   - Set `OWNER` to your Expo account name.
+- Presentation
 
-You can find these values in your project details:
-<img width="947" alt="Screenshot 2025-01-22 at 3 56 05 PM" src="https://github.com/user-attachments/assets/e8e17cef-8cbb-4d25-b09a-d861d08b6b2c" />
+   UI components and screens
 
-4. Customize the app configuration in `app.config.ts`:
-   - Update the app name, package names, and bundle identifiers.
-   - Configure icons and schemes for each environment.
-5. Add `/android` and `/ios` to your `.gitignore`.
+   No direct dependency on data sources
 
-## Development Setup
+- Domain
 
-1. Pull your development environment variables by running:
+   Business rules
 
-```bash
-eas env:pull development
-```
+   Entities, repositories (interfaces), and use cases
 
-This will generate a `.env.local` file with the development environment variables.
+- Data
 
-2. Set up your development build using one of these options:
+   API calls, local storage, and repository implementations
 
-   Option A: Create a development build with EAS:
+_______________________________________________________________________________________
 
-   ```bash
-   eas build -p ios --profile development
-   ```
+🔁 State Management & Networking
+_______________________________________________________________________________________
 
-   Option B: Prebuild locally:
+Redux is used for global state management
 
-   ```bash
-   npx expo prebuild
-   ```
+Axios is used for API communication
 
-3. Run the app:
+A centralized API client handles:
 
-```bash
-npx expo run:ios
-```
+Error handling
 
-## Development Workflow
+_______________________________________________________________________________________
 
-The recommended workflow is to use a development client during development. When your changes are ready for testing:
+📂 Folder Structure
+_______________________________________________________________________________________
 
-1. Create a preview build:
+app/
+ ├─ components/
+ │   └─ ProductInfo/
+ │       └─ ProductCard/
+ │           ├─ ProductCard.tsx
+ │           └─ styles.ts
+ 
+ ├─ lib/
+ │   ├─ api-client/
+ │   ├─ apiError.ts
+ │   ├─ endpoints.ts
+ │   ├─ httpClient.ts
+ │   └─ interceptors.ts
 
-```bash
-eas build -p ios --profile preview
-```
+ ├─ notification/
 
-2. Share the preview with your team or client. You can update this build remotely by running:
+ ├─ pages/
+ │   ├─ home/
+ │   │   ├─ data/
+ │   │   │   ├─ mock/
+ │   │   │   │   └─ home.mock.json
+ │   │   │   └─ homeRepositoryImpl.ts
+ │   │   ├─ domain/
+ │   │   │   ├─ entities/
+ │   │   │   ├─ repositories/
+ │   │   │   │   └─ HomeRepository.ts
+ │   │   │   └─ usecase/
+ │   │   │       └─ homeUseCase.ts
+ │   │   └─ presentation/
+ │   │       ├─ HomeView.tsx
+ │   │       └─ HomeViewStyle.styles.ts
 
-```bash
-eas update -p ios --environment preview --channel preview
-```
+ │   ├─ order/
+ │   │   ├─ data/
+ │   │   │   ├─ __tests__/
+ │   │   │   ├─ mock/
+ │   │   │   │   └─ order.mock.json
+ │   │   │   └─ orderRepositoryImpl.ts
+ │   │   ├─ domain/
+ │   │   │   ├─ entities/
+ │   │   │   ├─ repositories/
+ │   │   │   │   └─ OrderRepository.ts
+ │   │   │   └─ usecase/
+ │   │   │       └─ orderUseCase.ts
+ │   │   └─ presentation/
+ │   │       ├─ OrderView.tsx
+ │   │       └─ OrderViewStyle.styles.ts
 
-Don't forget to pass the `--environment` flag when sending an update, this will ensure the update uses the correct env variables
+ │   ├─ product/
+ │   │   ├─ data/
+ │   │   │   ├─ __tests__/
+ │   │   │   ├─ mock/
+ │   │   │   │   └─ product.mock.json
+ │   │   │   └─ productRepositoryImpl.ts
+ │   │   ├─ domain/
+ │   │   │   ├─ entities/
+ │   │   │   ├─ repositories/
+ │   │   │   │   └─ productRepository.ts
+ │   │   │   └─ usecase/
+ │   │   │       └─ productUseCase.ts
+ │   │   └─ presentation/
+ │   │       ├─ productView.tsx
+ │   │       └─ productViewStyle.styles.ts
 
-Note: The same update process applies for production and development builds.
+ │   ├─ AICopilot/
+ │   │   ├─ data/
+ │   │   │   ├─ __tests__/
+ │   │   │   ├─ aiCopilotRepositoryImpl.ts
+ │   │   │   ├─ aiActionExecutor.ts
+ │   │   │   ├─ aiContextProvider.ts
+ │   │   │   └─ aiConversationManager.ts
+ │   │   ├─ domain/
+ │   │   │   ├─ entities/
+ │   │   │   │   ├─ AICopilotAction.ts
+ │   │   │   │   ├─ ChatMessage.ts
+ │   │   │   │   └─ OpenAIResponse.ts
+ │   │   │   ├─ repositories/
+ │   │   │   │   └─ aiCopilotRepository.ts
+ │   │   │   └─ usecase/
+ │   │   │       └─ aiCopilotUseCase.ts
+ │   │   └─ presentation/
+ │   │       ├─ aiCopilotView.tsx
+ │   │       └─ aiCopilotViewStyle.styles.ts
 
-3. For production releases:
-   - Build only: `eas build -p ios`
-   - Build and submit: `eas build -p ios --auto-submit`
+ ├─ utils/
 
-## Switching Environments
+ ├─ database/
+ │   ├─ index.ts              # Realm instance
+ │   ├─ schemas/
+ │   │   ├─ ProductSchema.ts
+ │   │   ├─ OrderSchema.ts
+ │   │   └─ ChatMessageSchema.ts
+ │   └─ migrations.ts
+ 
+_______________________________________________________________________________________
 
-1. Pull the desired environment variables (e.g., "preview"):
+🧠 AI Copilot Integration
+_______________________________________________________________________________________
 
-```bash
-eas env:pull preview
-```
+Uses OpenAI API for chat and AI-driven actions
 
-This will update the `.env.local` file with the preview environment variables.
+Cleanly separated using the same data / domain / presentation pattern
 
-2. Prebuild the app:
+Supports:
 
-```bash
-npx expo prebuild
-```
+Conversation management
 
-3. Run the app:
+Context handling
 
-```bash
-npx expo run:ios
-```
+Action execution
+
+_______________________________________________________________________________________
+
+🧪 Unit tests
+_______________________________________________________________________________________
+
+For your AI Copilot, the highest-value tests are:
+1- Use case logic
+2- Builds conversation context
+3- Calls repository
+4- Executes AI actions
+5- Returns correct human-readable message
+6- Action parsing
+7- JSON → action
+8- Invalid JSON → ignored
+9- Action execution
+10- Updates order status
+11- Returns correct confirmation text
+
+_______________________________________________________________________________________
+
+🌐 RTL & Bilingual Support
+_______________________________________________________________________________________
+
+The application supports both LTR and RTL layouts to handle bilingual use cases. RTL handling focuses on correct UI alignment and layout behavior. 
+
+
+⭕️ Kindly note that mock data has not been translated, as the main focus is on frontend alignment and layout validation.
+_______________________________________________________________________________________
+
+🚀 Production Scalability & Environment Strategy
+_______________________________________________________________________________________
+
+The app is designed to scale to production with three environments: development, preview, and production. Each environment uses its own API configuration and keys managed through Expo environment variables. A CI/CD pipeline is used to automate builds and releases, allowing safe testing in non-production environments before deploying to the App Store. 
+
+- The production build is connected to live APIs and has been successfully uploaded to app store.
+
+_______________________________________________________________________________________
+
+📦 Offline Support & Data Persistence
+_______________________________________________________________________________________
+
+The app uses Realm database for offline support and data persistence. Realm is well suited for e-commerce applications due to its fast performance, reliable local storage, and ability to keep critical data (such as products, orders, and chat state) available even when the app is offline.
+
+_______________________________________________________________________________________
+
+🔔 Notifications
+_______________________________________________________________________________________
+
+The application includes simulated notifications for order and product updates. 
+
+🧪 To test the notifications are displayed when the user navigates to the corresponding order or product views, allowing the notification flow to be demonstrated and validated.
+
+Please note that this is a simulated implementation. For a scalable production setup, notifications should be integrated with the backend to automatically trigger push notifications based on real-time order or product events.

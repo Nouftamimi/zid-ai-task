@@ -60,6 +60,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     plugins: [
       "expo-router",
       "expo-secure-store",
+      "expo-speech-recognition",
       [
         "expo-splash-screen",
         {
